@@ -1,10 +1,10 @@
-import React from 'react'
-import {ReactJSXElement} from "@emotion/react/types/jsx-namespace";
+import React from 'react';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 
-type MedicalHistoryProps = {}
+type MedicalHistoryProps = {};
 
 function MedicalHistory(props: MedicalHistoryProps): ReactJSXElement {
-   return <></>
+   return <></>;
 }
 
-export default MedicalHistory
+export default MedicalHistory;
