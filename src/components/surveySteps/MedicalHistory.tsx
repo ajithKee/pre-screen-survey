@@ -6,9 +6,7 @@ import ControlledMuiRadioGroup from '../common/customFormFields/ControlledMuiRad
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { medicalHistoryQuestions } from '../../refData/medicalHistoryRef';
-import {
-   MedicalHistoryInfo,
-} from '../interfaces/medicalHistoryType';
+import { MedicalHistoryInfo } from '../interfaces/medicalHistoryType';
 
 import { addMedicalHistoryInformation } from '../store/SurveySlice';
 import { useDispatch, useSelector } from 'react-redux';
