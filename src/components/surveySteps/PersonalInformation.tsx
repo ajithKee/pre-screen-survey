@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import ControlledMuiTextField from '../common/customFormFields/ControlledMuiTextField';
 import { useForm } from 'react-hook-form';
 import { Box, Button } from '@mui/material';
@@ -14,9 +14,9 @@ import { stateList } from '../../refData/stateList';
 import { digitsOnly } from '../../refData/regex';
 import StepperNavButtons from '../common/StepperNavButtons';
 
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "../store/StateStore";
-import {addPersonalInformation} from '../store/SurveySlice'
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/StateStore';
+import { addPersonalInformation } from '../store/SurveySlice';
 
 /* CSS Styles */
 const styles = {
@@ -53,13 +53,12 @@ function PersonalInformation({
    onBackButtonClick,
    onNextButtonClick,
 }: PrimaryInformationProps) {
-
-   let memberInfo = useSelector((state: RootState) => state?.surveySlice?.memberInfo);
+   let memberInfo = useSelector(
+      (state: RootState) => state?.surveySlice?.memberInfo
+   );
    let dispatch = useDispatch();
 
-   useEffect(() => {
-   }, []);
-
+   useEffect(() => {}, []);
 
    /* Form field validation */
    const validationSchema: Yup.ObjectSchema<PrimaryInfo> = Yup.object().shape({

@@ -1,23 +1,20 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { Box } from '@mui/material';
 import StepperNavButtons from '../common/StepperNavButtons';
 import ControlledMuiRadioGroup from '../common/customFormFields/ControlledMuiRadioGroup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { medicalHistoryQuestions } from '../../refData/medicalHistoryRef';
 import {
-   medicalHistoryQuestions,
-} from '../../refData/medicalHistoryRef';
-import {
-   defaultMedicalHistoryInfo,
    MedicalHistoryInfo,
 } from '../interfaces/medicalHistoryType';
 
-import{addMedicalHistoryInformation} from '../store/SurveySlice'
-import {useDispatch, useSelector} from "react-redux";
+import { addMedicalHistoryInformation } from '../store/SurveySlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as Yup from 'yup';
-import {RootState} from "../store/StateStore";
+import { RootState } from '../store/StateStore';
 
 /* CSS Styles */
 const styles = {
@@ -40,12 +37,12 @@ function MedicalHistory({
    onBackButtonClick,
    onNextButtonClick,
 }: MedicalHistoryProps): ReactJSXElement {
-
-   let memberHistory = useSelector((state: RootState) => state?.surveySlice?.memberHistory);
+   let memberHistory = useSelector(
+      (state: RootState) => state?.surveySlice?.memberHistory
+   );
    let dispatch = useDispatch();
 
-   useEffect(() => {
-   }, []);
+   useEffect(() => {}, []);
 
    const validationSchema: Yup.ObjectSchema<MedicalHistoryInfo> =
       Yup.object().shape({
@@ -69,7 +66,7 @@ function MedicalHistory({
 
    const saveAndContinue = () => {
       let formValues = getValues();
-      dispatch(addMedicalHistoryInformation(formValues as MedicalHistoryInfo))
+      dispatch(addMedicalHistoryInformation(formValues as MedicalHistoryInfo));
       onNextButtonClick();
    };
 
@@ -78,6 +75,7 @@ function MedicalHistory({
          {medicalHistoryQuestions.map((question, index) => {
             let questionName = Object.keys(question)[0];
             let options = Object.values(question)[0];
+
             return (
                <Box key={index} sx={styles.questionsDiv}>
                   <ControlledMuiRadioGroup

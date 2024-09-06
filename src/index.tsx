@@ -6,8 +6,8 @@ import App from './App';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { orange } from '@mui/material/colors';
 
-import {Provider} from 'react-redux';
-import {stateStore} from './components/store/StateStore'
+import { Provider } from 'react-redux';
+import { stateStore } from './components/store/StateStore';
 
 const root = ReactDOM.createRoot(
    document.getElementById('root') as HTMLElement
@@ -24,8 +24,8 @@ const theme = createTheme({
 
 root.render(
    <ThemeProvider theme={theme}>
-       <Provider store={stateStore}>
-           <App />
-       </Provider>
+      <Provider store={stateStore}>
+         <App />
+      </Provider>
    </ThemeProvider>
 );

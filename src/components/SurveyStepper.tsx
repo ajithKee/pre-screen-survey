@@ -34,7 +34,7 @@ const styles = {
  * Main stepper component.
  */
 function SurveyStepper() {
-   let [activeStep, setActiveStep] = useState(1);
+   let [activeStep, setActiveStep] = useState(0);
 
    let onBackButtonClick = useCallback(() => {
       setActiveStep(activeStep - 1);
