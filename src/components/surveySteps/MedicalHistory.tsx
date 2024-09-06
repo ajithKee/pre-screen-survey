@@ -38,17 +38,11 @@ function MedicalHistory({
 }: MedicalHistoryProps): ReactJSXElement {
    const validationSchema: Yup.ObjectSchema<MedicalHistoryInfo> =
       Yup.object().shape({
-         BUN: Yup.string().required('BUN selection is required'),
-         'Blood Pressure': Yup.string().required(
-            'Blood Pressure selection is required'
-         ),
-         'Blood Sugar': Yup.string().required(
-            'Blood Sugar selection is required'
-         ),
-         Colestrol: Yup.string().required('Colestrol selection is required'),
-         'Currently on Medication': Yup.string().required(
-            'Medication selection is required'
-         ),
+         BUN: Yup.string().required(),
+         'Blood Pressure': Yup.string().required(),
+         'Blood Sugar': Yup.string().required(),
+         Colestrol: Yup.string().required(),
+         'Currently on Medication': Yup.string().required(),
       });
 
    /* Uses React Form Hook to control the form */
