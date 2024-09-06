@@ -30,13 +30,10 @@ const styles = {
    },
 };
 
-type SurveyStepperProps = {};
-
 /**
  * Main stepper component.
- * @param props
  */
-function SurveyStepper(props: SurveyStepperProps) {
+function SurveyStepper() {
    let [activeStep, setActiveStep] = useState(0);
 
    let onBackButtonClick = useCallback(() => {
@@ -82,8 +79,8 @@ function SurveyStepper(props: SurveyStepperProps) {
  */
 function renderStepContent(
    stepIndex: number,
-   onBackButtonClick: any,
-   onNextButtonClick: any
+   onBackButtonClick: () => void,
+   onNextButtonClick: () => void
 ): ReactJSXElement | null {
    switch (stepIndex) {
       case 0:

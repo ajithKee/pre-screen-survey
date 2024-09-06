@@ -49,6 +49,7 @@ function PersonalInformation({
    onBackButtonClick,
    onNextButtonClick,
 }: PrimaryInformationProps) {
+   /* Form field validation */
    const validationSchema: Yup.ObjectSchema<PrimaryInfo> = Yup.object().shape({
       firstName: Yup.string().required('Firstname is required'),
       lastName: Yup.string().required('Lastname is required'),
