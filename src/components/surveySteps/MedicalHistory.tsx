@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { Box } from '@mui/material';
 import StepperNavButtons from '../common/StepperNavButtons';
@@ -7,13 +7,17 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
    medicalHistoryQuestions,
-   MedicalHistoryQuestions,
 } from '../../refData/medicalHistoryRef';
 import {
    defaultMedicalHistoryInfo,
    MedicalHistoryInfo,
 } from '../interfaces/medicalHistoryType';
+
+import{addMedicalHistoryInformation} from '../store/SurveySlice'
+import {useDispatch, useSelector} from "react-redux";
+
 import * as Yup from 'yup';
+import {RootState} from "../store/StateStore";
 
 /* CSS Styles */
 const styles = {
@@ -36,6 +40,13 @@ function MedicalHistory({
    onBackButtonClick,
    onNextButtonClick,
 }: MedicalHistoryProps): ReactJSXElement {
+
+   let memberHistory = useSelector((state: RootState) => state?.surveySlice?.memberHistory);
+   let dispatch = useDispatch();
+
+   useEffect(() => {
+   }, []);
+
    const validationSchema: Yup.ObjectSchema<MedicalHistoryInfo> =
       Yup.object().shape({
          BUN: Yup.string().required(),
@@ -52,12 +63,13 @@ function MedicalHistory({
       formState: { errors, isValid },
    } = useForm<MedicalHistoryInfo>({
       mode: 'onChange',
-      defaultValues: defaultMedicalHistoryInfo,
+      defaultValues: memberHistory,
       resolver: yupResolver(validationSchema),
    });
 
    const saveAndContinue = () => {
       let formValues = getValues();
+      dispatch(addMedicalHistoryInformation(formValues as MedicalHistoryInfo))
       onNextButtonClick();
    };
 
