@@ -6,35 +6,32 @@ type HookControllerWrappedSelectProp = {
    name: string;
    label: string;
    control: FieldValue<any>;
-   defaultValue: string;
-   style: any;
-   options: string[] | number[];
+    options: string[] | number[];
+   defaultValue?: string;
+   style?: any;
 };
 
 /**
  * MUI select component wrapped inside React Hook Form Controller.
  */
-function HookControllerWrappedSelect({
+function ControlledMuiSelect({
    name,
    label,
-   defaultValue,
    control,
-   style,
    options,
+   style,
 }: HookControllerWrappedSelectProp) {
    return (
       <Controller
          name={name}
          control={control}
-         defaultValue={defaultValue !== undefined ? defaultValue : null}
-         render={({ field }) => (
+         render={({ field}) => (
             <FormControl style={style}>
                <InputLabel>{label}</InputLabel>
                <Select
                   style={{ width: '100%' }}
                   {...field}
                   label={label}
-                  defaultValue={[]}
                >
                   {options.map((option) => (
                      <MenuItem value={option} key={option}>
@@ -48,4 +45,4 @@ function HookControllerWrappedSelect({
    );
 }
 
-export default HookControllerWrappedSelect;
+export default ControlledMuiSelect;

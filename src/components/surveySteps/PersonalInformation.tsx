@@ -1,11 +1,18 @@
 import React from 'react';
-import HookControllerWrappedTextField from '../common/customFormFields/HookControllerWrappedTextField';
+import ControlledMuiTextField from '../common/customFormFields/ControlledMuiTextField';
 import { useForm } from 'react-hook-form';
-import { Box, Button, MenuItem } from '@mui/material';
-import HookControllerWrappedDatePicker from '../common/customFormFields/HookControllerWrappedDatePicker';
+import { Box, Button } from '@mui/material';
+
+/* Validation resolver library */
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
+
+import ControlledMuiDatePicker from '../common/customFormFields/ControlledMuiDatePicker';
 import { PrimaryInfo, defaultPrimaryInfo } from '../interfaces/primaryInfoType';
-import HookControllerWrappedSelect from '../common/customFormFields/HookControllerWrappedSelect';
-import { stateList } from '../interfaces/stateList';
+import ControlledMuiSelect from '../common/customFormFields/ControlledMuiSelect';
+import { stateList } from '../../refData/stateList';
+import {digitsOnly} from "../../refData/regex";
+import StepperNavButtons from "../common/StepperNavButtons";
 
 /* CSS Styles */
 const styles = {
@@ -26,43 +33,69 @@ const styles = {
    stateSelect: {
       width: '40%',
    },
+    surveyStepperBodyButtons: {
+        float: 'right',
+    },
 };
 
-type PrimaryInformationProps = {};
+type PrimaryInformationProps = {
+    activeStep: number;
+    onBackButtonClick: ()=> void;
+    onNextButtonClick: ()=> void;
+};
 
-function PersonalInformation(props: PrimaryInformationProps) {
-   const { control, getValues } = useForm<PrimaryInfo>({
+function PersonalInformation({activeStep, onBackButtonClick, onNextButtonClick}: PrimaryInformationProps) {
+
+    const validationSchema: Yup.ObjectSchema<PrimaryInfo> = Yup.object().shape({
+        firstName: Yup.string().
+            required('Firstname is required'),
+        lastName: Yup.string().required('Lastname is required'),
+        streetAddress: Yup.string().required('Street address is required'),
+        dob: Yup.date().required(),
+        state: Yup.string().required('State is required'),
+        zipCode: Yup.string().required('ZipCode is required')
+            .test('Digits only', 'ZipCode allows only numbers', digitsOnly)
+            .min(5, 'ZipCode must be atleast 5 characters')
+            .max(5, 'ZipCode cannot exceed 5 characters')
+    });
+
+    /* Uses React Form Hook to control the form */
+   const { control, getValues, formState: { errors, isValid} } = useForm<PrimaryInfo>({
+       mode: "onChange",
       defaultValues: defaultPrimaryInfo,
+       resolver: yupResolver(validationSchema)
    });
 
-   function saveInfo() {
-      let formValues = getValues();
-      console.log(formValues);
-   }
+   const saveAndContinue = () => {
+       let formValues = getValues();
+       console.log(formValues);
 
-   return (
+       onNextButtonClick();
+    }
+
+    return (
       <>
          <Box sx={styles.formBox}>
-            <HookControllerWrappedTextField
+            <ControlledMuiTextField
                sx={styles.textField}
                name={'firstName'}
                control={control}
-               size={'small'}
                label={'First Name'}
-               fullWidth={false}
+               size={'medium'}
+               required={true}
             />
-            <HookControllerWrappedTextField
+            <ControlledMuiTextField
                sx={styles.textField}
                name={'lastName'}
                control={control}
-               size={'small'}
+               size={'medium'}
                label={'Last Name'}
-               fullWidth={false}
+               required={true}
             />
          </Box>
 
          <Box sx={styles.formBox}>
-            <HookControllerWrappedDatePicker
+            <ControlledMuiDatePicker
                sx={styles.datePicker}
                name={'dob'}
                control={control}
@@ -71,35 +104,45 @@ function PersonalInformation(props: PrimaryInformationProps) {
          </Box>
 
          <Box sx={styles.formBox}>
-            <HookControllerWrappedTextField
+            <ControlledMuiTextField
                sx={{}}
                name={'streetAddress'}
                control={control}
-               size={'small'}
+               size={'medium'}
                label={'Street Address'}
                fullWidth={true}
+               required={true}
             />
          </Box>
 
          <Box sx={styles.formBox}>
-            <HookControllerWrappedSelect
+            <ControlledMuiSelect
                name={'state'}
                label={'State'}
                control={control}
-               defaultValue={'Maryland'}
                style={styles.stateSelect}
                options={stateList}
             />
+
+             <ControlledMuiTextField
+                 sx={styles.textField}
+                 name={'zipCode'}
+                 control={control}
+                 size={'medium'}
+                 label={'Zip Code'}
+                 required={true}
+             />
          </Box>
 
-         <Button
-            variant="contained"
-            size={'small'}
-            sx={{ marginRight: '10px' }}
-            onClick={() => saveInfo()}
-         >
-            Save
-         </Button>
+          <Box sx={styles.surveyStepperBodyButtons}>
+              <StepperNavButtons
+                  stepIndex={activeStep}
+                  maxSteps={3}
+                  disableNextButton={!isValid}
+                  onBackButtonClick={onBackButtonClick}
+                  onNextButtonClick={saveAndContinue}
+              />
+          </Box>
       </>
    );
 }

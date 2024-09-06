@@ -7,8 +7,7 @@ import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import PersonalInformation from './surveySteps/PersonalInformation';
 import MedicalHistory from './surveySteps/MedicalHistory';
 import InsuranceInformation from './surveySteps/InsuranceInformation';
-import StepperNavButtons from './common/StepperNavButtons';
-import { stepperLabels } from './interfaces/stepperSteps';
+import { stepperLabels } from '../refData/stepperSteps';
 import StepperTitle from './common/StepperTitle';
 
 /* CSS styling */
@@ -68,16 +67,8 @@ function SurveyStepper(props: SurveyStepperProps) {
          <Box sx={styles.surveyStepperBodyBox}>
             <StepperTitle title={stepTitle} />
 
-            {renderStepContent(activeStep)}
+            {renderStepContent(activeStep, onBackButtonClick, onNextButtonClick)}
 
-            <Box sx={styles.surveyStepperBodyButtons}>
-               <StepperNavButtons
-                  stepIndex={activeStep}
-                  maxSteps={3}
-                  onBackButtonClick={onBackButtonClick}
-                  onNextButtonClick={onNextButtonClick}
-               />
-            </Box>
          </Box>
       </>
    );
@@ -85,16 +76,15 @@ function SurveyStepper(props: SurveyStepperProps) {
 
 /**
  * Render different form component based on the current step index
- * @param stepIndex
  */
-function renderStepContent(stepIndex: number): ReactJSXElement | null {
+function renderStepContent(stepIndex: number, onBackButtonClick: any, onNextButtonClick: any ): ReactJSXElement | null {
    switch (stepIndex) {
       case 0:
-         return <PersonalInformation />;
+         return <PersonalInformation activeStep={stepIndex} onBackButtonClick={onBackButtonClick} onNextButtonClick={onNextButtonClick} />;
       case 1:
-         return <MedicalHistory />;
+         return <MedicalHistory activeStep={stepIndex} onBackButtonClick={onBackButtonClick} onNextButtonClick={onNextButtonClick} />;
       case 2:
-         return <InsuranceInformation />;
+         return <InsuranceInformation activeStep={stepIndex} onBackButtonClick={onBackButtonClick} onNextButtonClick={onNextButtonClick}/>;
       default:
          return null;
    }

@@ -1,10 +1,34 @@
 import React from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+import {Box} from "@mui/material";
+import StepperNavButtons from "../common/StepperNavButtons";
 
-type MedicalHistoryProps = {};
+/* CSS Styles */
+const styles = {
+   surveyStepperBodyButtons: {
+      float: 'right',
+   },
+};
 
-function MedicalHistory(props: MedicalHistoryProps): ReactJSXElement {
-   return <></>;
+type MedicalHistoryProps = {
+   activeStep: number;
+   onBackButtonClick: ()=> void;
+   onNextButtonClick: ()=> void;
+};
+
+function MedicalHistory({activeStep, onBackButtonClick, onNextButtonClick}: MedicalHistoryProps): ReactJSXElement {
+   return (<>
+
+      <Box sx={styles.surveyStepperBodyButtons}>
+         <StepperNavButtons
+             stepIndex={activeStep}
+             maxSteps={3}
+             disableNextButton={false}
+             onBackButtonClick={onBackButtonClick}
+             onNextButtonClick={onNextButtonClick}
+         />
+      </Box>
+   </>);
 }
 
 export default MedicalHistory;

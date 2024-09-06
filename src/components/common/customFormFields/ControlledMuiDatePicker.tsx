@@ -7,18 +7,17 @@ import { Theme } from '@mui/material';
 export type HookControllerWrappedDatePickerProp = {
    name: string;
    control: FieldValue<any>;
-   label: string;
-   sx: SxProps<Theme>;
+   label?: string;
+   sx?: SxProps<Theme>;
 };
 
 /**
  * MUI date picker component wrapped inside React Hook Form Controller.
  */
-function HookControllerWrappedDatePicker({
+function ControlledMuiDatePicker({
    name,
    control,
-   label,
-   sx,
+    ...props
 }: HookControllerWrappedDatePickerProp) {
    return (
       <Controller
@@ -31,10 +30,16 @@ function HookControllerWrappedDatePicker({
          }) => (
             <>
                <DatePicker
-                  sx={sx}
-                  label={label}
+                   {...props}
                   onChange={onChange}
                   value={value}
+                  slotProps={{
+                      textField: {
+                          required: true,
+                          error: !!error,
+                          helperText: '',
+                      },
+                  }}
                />
             </>
          )}
@@ -42,4 +47,4 @@ function HookControllerWrappedDatePicker({
    );
 }
 
-export default HookControllerWrappedDatePicker;
+export default ControlledMuiDatePicker;
