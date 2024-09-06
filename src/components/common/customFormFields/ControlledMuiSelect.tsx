@@ -6,7 +6,7 @@ type HookControllerWrappedSelectProp = {
    name: string;
    label: string;
    control: FieldValue<any>;
-    options: string[] | number[];
+   options: string[] | number[];
    defaultValue?: string;
    style?: any;
 };
@@ -25,14 +25,10 @@ function ControlledMuiSelect({
       <Controller
          name={name}
          control={control}
-         render={({ field}) => (
+         render={({ field }) => (
             <FormControl style={style}>
                <InputLabel>{label}</InputLabel>
-               <Select
-                  style={{ width: '100%' }}
-                  {...field}
-                  label={label}
-               >
+               <Select style={{ width: '100%' }} {...field} label={label}>
                   {options.map((option) => (
                      <MenuItem value={option} key={option}>
                         {option}

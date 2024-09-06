@@ -11,8 +11,8 @@ import ControlledMuiDatePicker from '../common/customFormFields/ControlledMuiDat
 import { PrimaryInfo, defaultPrimaryInfo } from '../interfaces/primaryInfoType';
 import ControlledMuiSelect from '../common/customFormFields/ControlledMuiSelect';
 import { stateList } from '../../refData/stateList';
-import {digitsOnly} from "../../refData/regex";
-import StepperNavButtons from "../common/StepperNavButtons";
+import { digitsOnly } from '../../refData/regex';
+import StepperNavButtons from '../common/StepperNavButtons';
 
 /* CSS Styles */
 const styles = {
@@ -33,47 +33,54 @@ const styles = {
    stateSelect: {
       width: '40%',
    },
-    surveyStepperBodyButtons: {
-        float: 'right',
-    },
+   surveyStepperBodyButtons: {
+      float: 'right',
+   },
 };
 
 type PrimaryInformationProps = {
-    activeStep: number;
-    onBackButtonClick: ()=> void;
-    onNextButtonClick: ()=> void;
+   activeStep: number;
+   onBackButtonClick: () => void;
+   onNextButtonClick: () => void;
 };
 
-function PersonalInformation({activeStep, onBackButtonClick, onNextButtonClick}: PrimaryInformationProps) {
+function PersonalInformation({
+   activeStep,
+   onBackButtonClick,
+   onNextButtonClick,
+}: PrimaryInformationProps) {
+   const validationSchema: Yup.ObjectSchema<PrimaryInfo> = Yup.object().shape({
+      firstName: Yup.string().required('Firstname is required'),
+      lastName: Yup.string().required('Lastname is required'),
+      streetAddress: Yup.string().required('Street address is required'),
+      dob: Yup.date().required(),
+      state: Yup.string().required('State is required'),
+      zipCode: Yup.string()
+         .required('ZipCode is required')
+         .test('Digits only', 'ZipCode allows only numbers', digitsOnly)
+         .min(5, 'ZipCode must be atleast 5 characters')
+         .max(5, 'ZipCode cannot exceed 5 characters'),
+   });
 
-    const validationSchema: Yup.ObjectSchema<PrimaryInfo> = Yup.object().shape({
-        firstName: Yup.string().
-            required('Firstname is required'),
-        lastName: Yup.string().required('Lastname is required'),
-        streetAddress: Yup.string().required('Street address is required'),
-        dob: Yup.date().required(),
-        state: Yup.string().required('State is required'),
-        zipCode: Yup.string().required('ZipCode is required')
-            .test('Digits only', 'ZipCode allows only numbers', digitsOnly)
-            .min(5, 'ZipCode must be atleast 5 characters')
-            .max(5, 'ZipCode cannot exceed 5 characters')
-    });
-
-    /* Uses React Form Hook to control the form */
-   const { control, getValues, formState: { errors, isValid} } = useForm<PrimaryInfo>({
-       mode: "onChange",
+   /* Uses React Form Hook to control the form */
+   const {
+      control,
+      getValues,
+      formState: { errors, isValid },
+   } = useForm<PrimaryInfo>({
+      mode: 'onChange',
       defaultValues: defaultPrimaryInfo,
-       resolver: yupResolver(validationSchema)
+      resolver: yupResolver(validationSchema),
    });
 
    const saveAndContinue = () => {
-       let formValues = getValues();
-       console.log(formValues);
+      let formValues = getValues();
+      console.log(formValues);
 
-       onNextButtonClick();
-    }
+      onNextButtonClick();
+   };
 
-    return (
+   return (
       <>
          <Box sx={styles.formBox}>
             <ControlledMuiTextField
@@ -124,25 +131,25 @@ function PersonalInformation({activeStep, onBackButtonClick, onNextButtonClick}:
                options={stateList}
             />
 
-             <ControlledMuiTextField
-                 sx={styles.textField}
-                 name={'zipCode'}
-                 control={control}
-                 size={'medium'}
-                 label={'Zip Code'}
-                 required={true}
-             />
+            <ControlledMuiTextField
+               sx={styles.textField}
+               name={'zipCode'}
+               control={control}
+               size={'medium'}
+               label={'Zip Code'}
+               required={true}
+            />
          </Box>
 
-          <Box sx={styles.surveyStepperBodyButtons}>
-              <StepperNavButtons
-                  stepIndex={activeStep}
-                  maxSteps={3}
-                  disableNextButton={!isValid}
-                  onBackButtonClick={onBackButtonClick}
-                  onNextButtonClick={saveAndContinue}
-              />
-          </Box>
+         <Box sx={styles.surveyStepperBodyButtons}>
+            <StepperNavButtons
+               stepIndex={activeStep}
+               maxSteps={3}
+               disableNextButton={!isValid}
+               onBackButtonClick={onBackButtonClick}
+               onNextButtonClick={saveAndContinue}
+            />
+         </Box>
       </>
    );
 }

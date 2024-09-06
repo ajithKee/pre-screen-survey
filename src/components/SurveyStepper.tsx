@@ -67,8 +67,11 @@ function SurveyStepper(props: SurveyStepperProps) {
          <Box sx={styles.surveyStepperBodyBox}>
             <StepperTitle title={stepTitle} />
 
-            {renderStepContent(activeStep, onBackButtonClick, onNextButtonClick)}
-
+            {renderStepContent(
+               activeStep,
+               onBackButtonClick,
+               onNextButtonClick
+            )}
          </Box>
       </>
    );
@@ -77,14 +80,36 @@ function SurveyStepper(props: SurveyStepperProps) {
 /**
  * Render different form component based on the current step index
  */
-function renderStepContent(stepIndex: number, onBackButtonClick: any, onNextButtonClick: any ): ReactJSXElement | null {
+function renderStepContent(
+   stepIndex: number,
+   onBackButtonClick: any,
+   onNextButtonClick: any
+): ReactJSXElement | null {
    switch (stepIndex) {
       case 0:
-         return <PersonalInformation activeStep={stepIndex} onBackButtonClick={onBackButtonClick} onNextButtonClick={onNextButtonClick} />;
+         return (
+            <PersonalInformation
+               activeStep={stepIndex}
+               onBackButtonClick={onBackButtonClick}
+               onNextButtonClick={onNextButtonClick}
+            />
+         );
       case 1:
-         return <MedicalHistory activeStep={stepIndex} onBackButtonClick={onBackButtonClick} onNextButtonClick={onNextButtonClick} />;
+         return (
+            <MedicalHistory
+               activeStep={stepIndex}
+               onBackButtonClick={onBackButtonClick}
+               onNextButtonClick={onNextButtonClick}
+            />
+         );
       case 2:
-         return <InsuranceInformation activeStep={stepIndex} onBackButtonClick={onBackButtonClick} onNextButtonClick={onNextButtonClick}/>;
+         return (
+            <InsuranceInformation
+               activeStep={stepIndex}
+               onBackButtonClick={onBackButtonClick}
+               onNextButtonClick={onNextButtonClick}
+            />
+         );
       default:
          return null;
    }

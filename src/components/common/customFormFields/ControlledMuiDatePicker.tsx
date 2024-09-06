@@ -17,7 +17,7 @@ export type HookControllerWrappedDatePickerProp = {
 function ControlledMuiDatePicker({
    name,
    control,
-    ...props
+   ...props
 }: HookControllerWrappedDatePickerProp) {
    return (
       <Controller
@@ -30,15 +30,15 @@ function ControlledMuiDatePicker({
          }) => (
             <>
                <DatePicker
-                   {...props}
+                  {...props}
                   onChange={onChange}
                   value={value}
                   slotProps={{
-                      textField: {
-                          required: true,
-                          error: !!error,
-                          helperText: '',
-                      },
+                     textField: {
+                        required: true,
+                        error: !!error,
+                        helperText: '',
+                     },
                   }}
                />
             </>

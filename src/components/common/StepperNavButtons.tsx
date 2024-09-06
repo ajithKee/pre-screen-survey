@@ -21,7 +21,7 @@ function StepperNavButtons({
    maxSteps,
    onBackButtonClick,
    onNextButtonClick,
-   disableNextButton = false
+   disableNextButton = false,
 }: StepperNavButtonProps) {
    return (
       <>
@@ -49,13 +49,13 @@ function StepperNavButtons({
             ) : null}
 
             {stepIndex === maxSteps - 1 ? (
-                <Button
-                    variant="contained"
-                    size={'large'}
-                    onClick={() => onNextButtonClick()}
-                >
-                   Submit
-                </Button>
+               <Button
+                  variant="contained"
+                  size={'large'}
+                  onClick={() => onNextButtonClick()}
+               >
+                  Submit
+               </Button>
             ) : null}
          </Container>
       </>

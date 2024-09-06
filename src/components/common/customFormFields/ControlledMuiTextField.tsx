@@ -23,7 +23,7 @@ function ControlledMuiTextField({
    size,
    fullWidth,
    sx,
-                                    required
+   required,
 }: HookControllerWrappedTextFieldProp) {
    return (
       <Controller
@@ -32,23 +32,22 @@ function ControlledMuiTextField({
          render={({
             field: { onChange, value },
             fieldState: { error },
-                      formState
+            formState,
          }) => (
-             <>
-                 <TextField
-                     size={size ? size : 'small'}
-                     onChange={onChange}
-                     value={value}
-                     fullWidth={fullWidth ? fullWidth: false}
-                     label={label}
-                     variant="outlined"
-                     required={required ? required: false}
-                     sx={sx}
-                     helperText={error ? error.message : null}
-                     error={!!error}
-                 />
-             </>
-
+            <>
+               <TextField
+                  size={size ? size : 'small'}
+                  onChange={onChange}
+                  value={value}
+                  fullWidth={fullWidth ? fullWidth : false}
+                  label={label}
+                  variant="outlined"
+                  required={required ? required : false}
+                  sx={sx}
+                  helperText={error ? error.message : null}
+                  error={!!error}
+               />
+            </>
          )}
       />
    );
