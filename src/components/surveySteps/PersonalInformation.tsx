@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ControlledMuiTextField from '../common/customFormFields/ControlledMuiTextField';
 import { Box } from '@mui/material';
 
-/* Validation resolver library */
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { useForm } from 'react-hook-form';
 
 import ControlledMuiDatePicker from '../common/customFormFields/ControlledMuiDatePicker';
-import { PrimaryInfo } from '../interfaces/primaryInfoType';
+import { PrimaryInfo } from '../interfaces/formTypes';
 import ControlledMuiSelect from '../common/customFormFields/ControlledMuiSelect';
 import { stateList } from '../../refData/stateList';
 import { digitsOnly } from '../../refData/regex';
@@ -16,9 +15,7 @@ import StepperNavButtons from '../common/StepperNavButtons';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/StateStore';
-import { addPersonalInformation, setLoading } from '../store/SurveySlice';
-
-import Overlay from '../common/Overlay';
+import { addPersonalInformation } from '../store/SurveySlice';
 
 /* CSS Styles */
 const styles = {
@@ -55,15 +52,15 @@ function PersonalInformation({
    onBackButtonClick,
    onNextButtonClick,
 }: PrimaryInformationProps) {
+   /* Application state management */
    let memberInfo = useSelector(
       (state: RootState) => state?.surveySlice?.memberInfo
    );
 
    let dispatch = useDispatch();
+   /* End Application state management */
 
-   useEffect(() => {}, []);
-
-   /* Form field validation */
+   /* Form management */
    const validationSchema: Yup.ObjectSchema<PrimaryInfo> = Yup.object().shape({
       firstName: Yup.string().required('Firstname is required'),
       lastName: Yup.string().required('Lastname is required'),
@@ -77,7 +74,6 @@ function PersonalInformation({
          .max(5, 'ZipCode cannot exceed 5 characters'),
    });
 
-   /* Uses React Form Hook to control the form */
    const {
       control,
       getValues,
@@ -87,7 +83,9 @@ function PersonalInformation({
       defaultValues: memberInfo,
       resolver: yupResolver(validationSchema),
    });
+   /* End Form management */
 
+   /* Adds the current form values to state and then navigates to next step */
    const saveAndContinue = () => {
       let formValues = getValues();
       dispatch(addPersonalInformation(formValues as PrimaryInfo));
@@ -163,7 +161,7 @@ function PersonalInformation({
                disableNextButton={!isValid}
                onBackButtonClick={onBackButtonClick}
                onNextButtonClick={saveAndContinue}
-            />
+            ></StepperNavButtons>
          </Box>
       </>
    );

@@ -48,7 +48,6 @@ function SurveyStepper() {
 
    return (
       <>
-         {/*Stepper Component*/}
          <Box sx={styles.surveyStepperBox}>
             <Stepper activeStep={activeStep}>
                {stepperLabels.map((stepLabel: string, index: number) => {

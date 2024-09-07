@@ -14,6 +14,7 @@ type StepperNavButtonProps = {
    onBackButtonClick: () => void;
    onNextButtonClick: () => void;
    disableNextButton?: boolean;
+   children?: React.ReactNode;
 };
 
 function StepperNavButtons({
@@ -22,6 +23,7 @@ function StepperNavButtons({
    onBackButtonClick,
    onNextButtonClick,
    disableNextButton = false,
+   children,
 }: StepperNavButtonProps) {
    return (
       <>
@@ -64,9 +66,11 @@ function StepperNavButtons({
                   disabled={disableNextButton}
                   onClick={() => onNextButtonClick()}
                >
-                  Submit
+                  Save
                </Button>
             ) : null}
+
+            {children}
          </Container>
       </>
    );

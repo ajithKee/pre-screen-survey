@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SurveySliceType } from '../interfaces/surveySliceType';
-import { PrimaryInfo } from '../interfaces/primaryInfoType';
-import { MedicalHistoryInfo } from '../interfaces/medicalHistoryType';
-import { InsuranceInformationType } from '../interfaces/insuranceInformationType';
+import { PrimaryInfo, MedicalHistoryInfo, InsuranceInformationType} from '../interfaces/formTypes';
 
+/* Initial state of the survey form */
 const initialState: SurveySliceType = {
    memberInfo: {
       firstName: '',
@@ -30,6 +29,9 @@ const initialState: SurveySliceType = {
    isLoading: false,
 };
 
+/**
+ * Configuration for the survey slice of the state store.
+ */
 const sliceConfig = {
    name: 'surveySlice',
    initialState,
@@ -58,8 +60,10 @@ const sliceConfig = {
    },
 };
 
+/* Create the slice */
 let surveySlice = createSlice(sliceConfig);
 
+/* Export the reducer and actions */
 export default surveySlice.reducer;
 
 export const {

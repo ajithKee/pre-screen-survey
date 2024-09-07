@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { Box } from '@mui/material';
+
 import StepperNavButtons from '../common/StepperNavButtons';
 import ControlledMuiRadioGroup from '../common/customFormFields/ControlledMuiRadioGroup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { medicalHistoryQuestions } from '../../refData/medicalHistoryRef';
-import { MedicalHistoryInfo } from '../interfaces/medicalHistoryType';
 
-import { addMedicalHistoryInformation } from '../store/SurveySlice';
+import { medicalHistoryQuestions } from '../../refData/medicalHistoryRef';
+import { MedicalHistoryInfo } from '../interfaces/formTypes';
+
 import { useDispatch, useSelector } from 'react-redux';
+import { addMedicalHistoryInformation } from '../store/SurveySlice';
+import { RootState } from '../store/StateStore';
 
 import * as Yup from 'yup';
-import { RootState } from '../store/StateStore';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 /* CSS Styles */
 const styles = {
@@ -35,13 +37,14 @@ function MedicalHistory({
    onBackButtonClick,
    onNextButtonClick,
 }: MedicalHistoryProps): ReactJSXElement {
+   /* Application state management */
    let memberHistory = useSelector(
       (state: RootState) => state?.surveySlice?.memberHistory
    );
    let dispatch = useDispatch();
+   /* End Application state management */
 
-   useEffect(() => {}, []);
-
+   /* Form management */
    const validationSchema: Yup.ObjectSchema<MedicalHistoryInfo> =
       Yup.object().shape({
          BUN: Yup.string().required(),
@@ -51,7 +54,6 @@ function MedicalHistory({
          'Currently on Medication': Yup.string().required(),
       });
 
-   /* Uses React Form Hook to control the form */
    const {
       control,
       getValues,
@@ -61,7 +63,18 @@ function MedicalHistory({
       defaultValues: memberHistory,
       resolver: yupResolver(validationSchema),
    });
+   /* End Form management */
 
+   /* Save user entered medical history on back navigation to preserve data */
+   function onBackButton() {
+      (function saveInsuranceInformation() {
+         let formValue = getValues() as MedicalHistoryInfo;
+         dispatch(addMedicalHistoryInformation(formValue));
+         onBackButtonClick();
+      })();
+   }
+
+   /* Save user entered medical history to store */
    const saveAndContinue = () => {
       let formValues = getValues();
       dispatch(addMedicalHistoryInformation(formValues as MedicalHistoryInfo));
@@ -93,9 +106,9 @@ function MedicalHistory({
                stepIndex={activeStep}
                maxSteps={3}
                disableNextButton={!isValid}
-               onBackButtonClick={onBackButtonClick}
+               onBackButtonClick={onBackButton}
                onNextButtonClick={saveAndContinue}
-            />
+            ></StepperNavButtons>
          </Box>
       </>
    );

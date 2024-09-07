@@ -1,21 +1,24 @@
 import React from 'react';
 import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
-import { Box } from '@mui/material';
+
+import { Box, Button } from '@mui/material';
+
 import StepperNavButtons from '../common/StepperNavButtons';
 import Overlay from '../common/Overlay';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/StateStore';
-import ControlledMuiTextField from '../common/customFormFields/ControlledMuiTextField';
+import { addInsuranceInformation } from '../store/SurveySlice';
 
-/* Validation resolver library */
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 
 import ControlledMuiDatePicker from '../common/customFormFields/ControlledMuiDatePicker';
-import { InsuranceInformationType } from '../interfaces/insuranceInformationType';
+import ControlledMuiTextField from '../common/customFormFields/ControlledMuiTextField';
+
+import { InsuranceInformationType } from '../interfaces/formTypes';
 import { digitsOnly } from '../../refData/regex';
-import { addInsuranceInformation } from '../store/SurveySlice';
 
 /* CSS Styles */
 const styles = {
@@ -49,16 +52,21 @@ function InsuranceInformation({
    onBackButtonClick,
    onNextButtonClick,
 }: InsuranceInformationProps): ReactJSXElement {
+   /* Application state management */
    let insuranceInformation = useSelector(
       (state: RootState) => state?.surveySlice?.memberInsuranceInfo
    );
+
+   let surveyState = useSelector((state: RootState) => state?.surveySlice);
 
    let loading = useSelector(
       (state: RootState) => state?.surveySlice?.isLoading
    );
 
    let dispatch = useDispatch();
+   /* End Application state management */
 
+   /* Form management */
    const validationSchema: Yup.ObjectSchema<InsuranceInformationType> =
       Yup.object().shape({
          providerName: Yup.string().required('Provider Name is required'),
@@ -79,18 +87,28 @@ function InsuranceInformation({
       defaultValues: insuranceInformation,
       resolver: yupResolver(validationSchema),
    });
+   /* End Form management */
 
-   function submitSurvey() {
-      let formValue = getValues() as InsuranceInformationType;
-      dispatch(addInsuranceInformation(formValue));
+   /* Save user entered survey info Insurance Information to store */
+   function saveSurveyInformation() {
+      (function saveInsuranceInformation() {
+         let formValue = getValues() as InsuranceInformationType;
+         dispatch(addInsuranceInformation(formValue));
+      })();
    }
 
+   /* Save user entered survey info on back navigation to preserve data */
    function onBackButton() {
       (function saveInsuranceInformation() {
          let formValue = getValues() as InsuranceInformationType;
          dispatch(addInsuranceInformation(formValue));
          onBackButtonClick();
       })();
+   }
+
+   /* Submit the survey data to backend */
+   function onSubmitButtonClick() {
+      console.log(surveyState);
    }
 
    return (
@@ -152,8 +170,18 @@ function InsuranceInformation({
                maxSteps={3}
                disableNextButton={!isValid}
                onBackButtonClick={onBackButton}
-               onNextButtonClick={submitSurvey}
-            />
+               onNextButtonClick={saveSurveyInformation}
+            >
+               <Button
+                  sx={{ marginLeft: '10px' }}
+                  variant="contained"
+                  size={'large'}
+                  disabled={!isValid}
+                  onClick={() => onSubmitButtonClick()}
+               >
+                  Submit
+               </Button>
+            </StepperNavButtons>
          </Box>
       </>
    );

@@ -1,6 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import surveySlice from './SurveySlice';
 
+/**
+ * The state store
+ */
 export const stateStore = configureStore({
    reducer: {
       surveySlice: surveySlice,
