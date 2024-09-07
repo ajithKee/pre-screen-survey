@@ -16,6 +16,7 @@ import StepperTitle from './common/StepperTitle';
 import {useSelector} from "react-redux";
 import {RootState} from "./store/StateStore";
 import SuccessSubmit from "./common/SuccessSubmit";
+import Overlay from "./common/Overlay";
 
 /* CSS styling */
 const styles = {
@@ -46,6 +47,10 @@ function SurveyStepper() {
        (state: RootState) => state?.surveySlice?.isSubmitted
    );
 
+   let loading = useSelector(
+       (state: RootState) => state?.surveySlice?.isLoading
+   );
+
    let [activeStep, setActiveStep] = useState(0);
 
    let onBackButtonClick = useCallback(() => {
@@ -60,6 +65,7 @@ function SurveyStepper() {
 
    const StepperComponent: ReactJSXElement = (
        <>
+          <Overlay open={loading} />
           <Box sx={styles.surveyStepperBox}>
              <Stepper activeStep={activeStep}>
                 {stepperLabels.map((stepLabel: string, index: number) => {

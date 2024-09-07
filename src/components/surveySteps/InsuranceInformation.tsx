@@ -60,7 +60,7 @@ function InsuranceInformation({
    let surveyState = useSelector((state: RootState) => state?.surveySlice);
 
    let loading = useSelector(
-      (state: RootState) => state?.surveySlice?.isLoading
+       (state: RootState) => state?.surveySlice?.isLoading
    );
 
    let dispatch = useDispatch();
@@ -119,8 +119,6 @@ function InsuranceInformation({
 
    return (
       <>
-         <Overlay open={loading} />
-
          <Box sx={styles.formBox}>
             <ControlledMuiTextField
                sx={styles.textField}
@@ -174,7 +172,8 @@ function InsuranceInformation({
             <StepperNavButtons
                stepIndex={activeStep}
                maxSteps={3}
-               disableNextButton={!isValid}
+               disableNextButton={!isValid || loading}
+               disableBackButton={loading}
                onBackButtonClick={onBackButton}
                onNextButtonClick={saveSurveyInformation}
             >
@@ -182,7 +181,7 @@ function InsuranceInformation({
                   sx={{ marginLeft: '10px' }}
                   variant="contained"
                   size={'large'}
-                  disabled={!isValid}
+                  disabled={!isValid || loading}
                   onClick={() => onSubmitButtonClick()}
                >
                   Submit
