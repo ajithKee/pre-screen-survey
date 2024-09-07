@@ -27,6 +27,7 @@ const initialState: SurveySliceType = {
       effectiveDate: new Date(),
    },
    isLoading: false,
+   isSubmitted: false,
 };
 
 /**
@@ -57,6 +58,9 @@ const sliceConfig = {
       setLoading: (state: any, action: PayloadAction<boolean>) => {
          state.isLoading = action.payload;
       },
+      setSubmitted: (state: any, action: PayloadAction<boolean>) => {
+         state.isSubmitted = action.payload;
+      },
    },
 };
 
@@ -71,4 +75,5 @@ export const {
    addMedicalHistoryInformation,
    addInsuranceInformation,
    setLoading,
+   setSubmitted
 } = surveySlice.actions;

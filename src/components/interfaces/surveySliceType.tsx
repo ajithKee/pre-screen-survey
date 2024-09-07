@@ -6,4 +6,5 @@ export interface SurveySliceType {
    memberHistory: MedicalHistoryInfo;
    memberInsuranceInfo: InsuranceInformationType;
    isLoading: boolean;
+   isSubmitted: boolean;
 }

@@ -1,14 +1,21 @@
 import React, { useCallback, useState } from 'react';
+import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+
 import { Box } from '@mui/material';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
+
 import PersonalInformation from './surveySteps/PersonalInformation';
 import MedicalHistory from './surveySteps/MedicalHistory';
 import InsuranceInformation from './surveySteps/InsuranceInformation';
+
 import { stepperLabels } from '../refData/stepperSteps';
 import StepperTitle from './common/StepperTitle';
+
+import {useSelector} from "react-redux";
+import {RootState} from "./store/StateStore";
+import SuccessSubmit from "./common/SuccessSubmit";
 
 /* CSS styling */
 const styles = {
@@ -34,6 +41,11 @@ const styles = {
  * Main stepper component.
  */
 function SurveyStepper() {
+
+   let isSubmitted = useSelector(
+       (state: RootState) => state?.surveySlice?.isSubmitted
+   );
+
    let [activeStep, setActiveStep] = useState(0);
 
    let onBackButtonClick = useCallback(() => {
@@ -46,31 +58,36 @@ function SurveyStepper() {
 
    let stepTitle = stepperLabels[activeStep];
 
-   return (
-      <>
-         <Box sx={styles.surveyStepperBox}>
-            <Stepper activeStep={activeStep}>
-               {stepperLabels.map((stepLabel: string, index: number) => {
-                  return (
-                     <Step key={stepLabel}>
-                        <StepLabel>{stepLabel}</StepLabel>
-                     </Step>
-                  );
-               })}
-            </Stepper>
-         </Box>
+   const StepperComponent: ReactJSXElement = (
+       <>
+          <Box sx={styles.surveyStepperBox}>
+             <Stepper activeStep={activeStep}>
+                {stepperLabels.map((stepLabel: string, index: number) => {
+                   return (
+                       <Step key={stepLabel}>
+                          <StepLabel>{stepLabel}</StepLabel>
+                       </Step>
+                   );
+                })}
+             </Stepper>
+          </Box>
 
-         <Box sx={styles.surveyStepperBodyBox}>
-            <StepperTitle title={stepTitle} />
+          <Box sx={styles.surveyStepperBodyBox}>
+             <StepperTitle title={stepTitle} />
 
-            {renderStepContent(
-               activeStep,
-               onBackButtonClick,
-               onNextButtonClick
-            )}
-         </Box>
-      </>
+             {renderStepContent(
+                 activeStep,
+                 onBackButtonClick,
+                 onNextButtonClick
+             )}
+          </Box>
+       </>
    );
+
+   const SuccessComponent: ReactJSXElement = (<SuccessSubmit/>);
+
+   /* Render the stepper or survey submit confirmation */
+   return !isSubmitted ? StepperComponent: SuccessComponent;
 }
 
 /**
