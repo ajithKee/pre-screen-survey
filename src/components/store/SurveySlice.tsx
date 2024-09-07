@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SurveySliceType } from '../interfaces/surveySliceType';
 import { PrimaryInfo } from '../interfaces/primaryInfoType';
 import { MedicalHistoryInfo } from '../interfaces/medicalHistoryType';
-import {InsuranceInformationType} from "../interfaces/insuranceInformationType";
+import { InsuranceInformationType } from '../interfaces/insuranceInformationType';
 
 const initialState: SurveySliceType = {
    memberInfo: {
@@ -46,7 +46,10 @@ const sliceConfig = {
       ) => {
          state.memberHistory = action.payload;
       },
-      addInsuranceInformation: (state: SurveySliceType, action: PayloadAction<InsuranceInformationType>) => {
+      addInsuranceInformation: (
+         state: SurveySliceType,
+         action: PayloadAction<InsuranceInformationType>
+      ) => {
          state.memberInsuranceInfo = action.payload;
       },
       setLoading: (state: any, action: PayloadAction<boolean>) => {
