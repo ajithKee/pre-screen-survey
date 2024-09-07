@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import ControlledMuiTextField from '../common/customFormFields/ControlledMuiTextField';
-import { useForm } from 'react-hook-form';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 /* Validation resolver library */
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
 
 import ControlledMuiDatePicker from '../common/customFormFields/ControlledMuiDatePicker';
-import { PrimaryInfo, defaultPrimaryInfo } from '../interfaces/primaryInfoType';
+import { PrimaryInfo } from '../interfaces/primaryInfoType';
 import ControlledMuiSelect from '../common/customFormFields/ControlledMuiSelect';
 import { stateList } from '../../refData/stateList';
 import { digitsOnly } from '../../refData/regex';
@@ -16,7 +16,9 @@ import StepperNavButtons from '../common/StepperNavButtons';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/StateStore';
-import { addPersonalInformation } from '../store/SurveySlice';
+import { addPersonalInformation, setLoading } from '../store/SurveySlice';
+
+import Overlay from '../common/Overlay';
 
 /* CSS Styles */
 const styles = {
@@ -56,6 +58,7 @@ function PersonalInformation({
    let memberInfo = useSelector(
       (state: RootState) => state?.surveySlice?.memberInfo
    );
+
    let dispatch = useDispatch();
 
    useEffect(() => {}, []);
@@ -102,6 +105,7 @@ function PersonalInformation({
                size={'medium'}
                required={true}
             />
+
             <ControlledMuiTextField
                sx={styles.textField}
                name={'lastName'}

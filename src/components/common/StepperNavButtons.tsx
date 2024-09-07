@@ -61,6 +61,7 @@ function StepperNavButtons({
                <Button
                   variant="contained"
                   size={'large'}
+                  disabled={disableNextButton}
                   onClick={() => onNextButtonClick()}
                >
                   Submit
