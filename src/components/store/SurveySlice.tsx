@@ -1,6 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SurveySliceType } from '../interfaces/surveySliceType';
-import { PrimaryInfo, MedicalHistoryInfo, InsuranceInformationType} from '../interfaces/formTypes';
+import {
+   PrimaryInfo,
+   MedicalHistoryInfo,
+   InsuranceInformationType,
+} from '../interfaces/formTypes';
 
 /* Initial state of the survey form */
 const initialState: SurveySliceType = {
@@ -75,5 +79,5 @@ export const {
    addMedicalHistoryInformation,
    addInsuranceInformation,
    setLoading,
-   setSubmitted
+   setSubmitted,
 } = surveySlice.actions;

@@ -8,7 +8,11 @@ import Overlay from '../common/Overlay';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/StateStore';
-import { addInsuranceInformation, setLoading, setSubmitted } from '../store/SurveySlice';
+import {
+   addInsuranceInformation,
+   setLoading,
+   setSubmitted,
+} from '../store/SurveySlice';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -60,7 +64,7 @@ function InsuranceInformation({
    let surveyState = useSelector((state: RootState) => state?.surveySlice);
 
    let loading = useSelector(
-       (state: RootState) => state?.surveySlice?.isLoading
+      (state: RootState) => state?.surveySlice?.isLoading
    );
 
    let dispatch = useDispatch();
@@ -109,12 +113,11 @@ function InsuranceInformation({
    /* Submit the survey data to backend. Mocking a long API call that triggers a loader */
    function onSubmitButtonClick() {
       dispatch(setLoading(true));
-      setTimeout(()=> {
-             dispatch((setLoading(false)));
-             console.log(surveyState);
-             dispatch(setSubmitted(true));
-          }
-          , 10000);
+      setTimeout(() => {
+         dispatch(setLoading(false));
+         console.log(surveyState);
+         dispatch(setSubmitted(true));
+      }, 10000);
    }
 
    return (
