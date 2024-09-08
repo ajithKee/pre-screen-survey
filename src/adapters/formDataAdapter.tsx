@@ -7,6 +7,11 @@ import {
    PrimarySlice,
 } from '../components/interfaces/surveySliceType';
 
+/**
+ * Adapters to convert date form date type to string type and vice-versa.
+ * Redux toolkit store does not support non-serializable types such as Date
+ */
+
 export const convertInsuranceInfoFormDataToSlice = (
    formValue: InsuranceInformationType
 ): InsuranceInformationSlice => {
