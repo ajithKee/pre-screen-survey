@@ -16,7 +16,7 @@ import StepperNavButtons from '../common/StepperNavButtons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/StateStore';
 import { addPersonalInformation } from '../store/SurveySlice';
-import { PrimarySlice } from '../interfaces/surveySliceType';
+import {convertPersonInfoFormDataToSlice, convertPersonInfoSliceToFormData} from "../../adapters/formDataAdapter";
 
 /* CSS Styles */
 const styles = {
@@ -62,14 +62,7 @@ function PersonalInformation({
    /* End Application state management */
 
    /* Form management */
-   const defaultPrimaryInformation: PrimaryInfo = {
-      firstName: memberInfo.firstName,
-      lastName: memberInfo.lastName,
-      dob: new Date(memberInfo.dob),
-      streetAddress: memberInfo.streetAddress,
-      state: memberInfo.state,
-      zipCode: memberInfo.zipCode,
-   };
+   const defaultPrimaryInformation = convertPersonInfoSliceToFormData(memberInfo);
 
    const validationSchema: Yup.ObjectSchema<PrimaryInfo> = Yup.object().shape({
       firstName: Yup.string().required('Firstname is required'),
@@ -98,18 +91,7 @@ function PersonalInformation({
    /* Adds the current form values to state and then navigates to next step */
    const saveAndContinue = () => {
       let formValues = getValues() as PrimaryInfo;
-
-      const convertedPrimaryInfo: PrimarySlice = {
-         firstName: formValues.firstName,
-         lastName: formValues.lastName,
-         dob: formValues.dob.toISOString(),
-         streetAddress: formValues.streetAddress,
-         state: formValues.state,
-         zipCode: formValues.zipCode,
-      };
-
-      dispatch(addPersonalInformation(convertedPrimaryInfo));
-
+      dispatch(addPersonalInformation(convertPersonInfoFormDataToSlice(formValues)));
       onNextButtonClick();
    };
 

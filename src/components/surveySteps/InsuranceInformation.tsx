@@ -4,7 +4,6 @@ import { ReactJSXElement } from '@emotion/react/types/jsx-namespace';
 import { Box, Button } from '@mui/material';
 
 import StepperNavButtons from '../common/StepperNavButtons';
-import Overlay from '../common/Overlay';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store/StateStore';
@@ -22,7 +21,11 @@ import ControlledMuiTextField from '../common/customFormFields/ControlledMuiText
 
 import { InsuranceInformationType } from '../interfaces/formTypes';
 import { digitsOnly } from '../../refData/regex';
-import { InsuranceInformationSlice } from '../interfaces/surveySliceType';
+
+import {
+   convertInsuranceInfoFormDataToSlice,
+   convertInsuranceInfoSliceToFormData,
+} from '../../adapters/formDataAdapter';
 
 /* CSS Styles */
 const styles = {
@@ -71,13 +74,8 @@ function InsuranceInformation({
    /* End Application state management */
 
    /* Form management */
-   const defaultInsuranceInformation: InsuranceInformationType = {
-      providerName: insuranceInformation.providerName,
-      memberName: insuranceInformation.memberName,
-      memberId: insuranceInformation.memberId,
-      groupNumber: insuranceInformation.groupNumber,
-      effectiveDate: new Date(insuranceInformation.effectiveDate),
-   };
+   const defaultInsuranceInformation =
+      convertInsuranceInfoSliceToFormData(insuranceInformation);
 
    const validationSchema: Yup.ObjectSchema<InsuranceInformationType> =
       Yup.object().shape({
@@ -105,16 +103,11 @@ function InsuranceInformation({
    function saveSurveyInformation() {
       (function saveInsuranceInformation() {
          let formValue = getValues() as InsuranceInformationType;
-
-         let convertedInsuranceInformation: InsuranceInformationSlice = {
-            providerName: formValue.providerName,
-            memberName: formValue.memberName,
-            memberId: formValue.memberId,
-            groupNumber: formValue.groupNumber,
-            effectiveDate: formValue.effectiveDate.toISOString(),
-         };
-
-         dispatch(addInsuranceInformation(convertedInsuranceInformation));
+         dispatch(
+            addInsuranceInformation(
+               convertInsuranceInfoFormDataToSlice(formValue)
+            )
+         );
       })();
    }
 
@@ -122,16 +115,11 @@ function InsuranceInformation({
    function onBackButton() {
       (function saveInsuranceInformation() {
          let formValue = getValues() as InsuranceInformationType;
-
-         let convertedInsuranceInformation: InsuranceInformationSlice = {
-            providerName: formValue.providerName,
-            memberName: formValue.memberName,
-            memberId: formValue.memberId,
-            groupNumber: formValue.groupNumber,
-            effectiveDate: formValue.effectiveDate.toISOString(),
-         };
-
-         dispatch(addInsuranceInformation(convertedInsuranceInformation));
+         dispatch(
+            addInsuranceInformation(
+               convertInsuranceInfoFormDataToSlice(formValue)
+            )
+         );
          onBackButtonClick();
       })();
    }
