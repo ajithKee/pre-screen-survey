@@ -23,6 +23,7 @@ import ControlledMuiTextField from '../common/customFormFields/ControlledMuiText
 
 import { InsuranceInformationType } from '../interfaces/formTypes';
 import { digitsOnly } from '../../refData/regex';
+import {InsuranceInformationSlice} from "../interfaces/surveySliceType";
 
 /* CSS Styles */
 const styles = {
@@ -71,6 +72,14 @@ function InsuranceInformation({
    /* End Application state management */
 
    /* Form management */
+   const defaultInsuranceInformation: InsuranceInformationType = {
+      providerName: insuranceInformation.providerName,
+      memberName: insuranceInformation.memberName,
+      memberId: insuranceInformation.memberId,
+      groupNumber: insuranceInformation.groupNumber,
+      effectiveDate: new Date(insuranceInformation.effectiveDate)
+   }
+
    const validationSchema: Yup.ObjectSchema<InsuranceInformationType> =
       Yup.object().shape({
          providerName: Yup.string().required('Provider Name is required'),
@@ -88,7 +97,7 @@ function InsuranceInformation({
       formState: { errors, isValid },
    } = useForm({
       mode: 'onChange',
-      defaultValues: insuranceInformation,
+      defaultValues: defaultInsuranceInformation,
       resolver: yupResolver(validationSchema),
    });
    /* End Form management */
@@ -97,7 +106,16 @@ function InsuranceInformation({
    function saveSurveyInformation() {
       (function saveInsuranceInformation() {
          let formValue = getValues() as InsuranceInformationType;
-         dispatch(addInsuranceInformation(formValue));
+
+         let convertedInsuranceInformation: InsuranceInformationSlice = {
+            providerName: formValue.providerName,
+            memberName: formValue.memberName,
+            memberId: formValue.memberId,
+            groupNumber: formValue.groupNumber,
+            effectiveDate: formValue.effectiveDate.toISOString(),
+         }
+
+         dispatch(addInsuranceInformation(convertedInsuranceInformation));
       })();
    }
 
@@ -105,7 +123,16 @@ function InsuranceInformation({
    function onBackButton() {
       (function saveInsuranceInformation() {
          let formValue = getValues() as InsuranceInformationType;
-         dispatch(addInsuranceInformation(formValue));
+
+         let convertedInsuranceInformation: InsuranceInformationSlice = {
+            providerName: formValue.providerName,
+            memberName: formValue.memberName,
+            memberId: formValue.memberId,
+            groupNumber: formValue.groupNumber,
+            effectiveDate: formValue.effectiveDate.toISOString(),
+         }
+
+         dispatch(addInsuranceInformation(convertedInsuranceInformation));
          onBackButtonClick();
       })();
    }

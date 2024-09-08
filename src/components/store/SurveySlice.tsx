@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SurveySliceType } from '../interfaces/surveySliceType';
+import {InsuranceInformationSlice, PrimarySlice, SurveySliceType} from '../interfaces/surveySliceType';
 import {
    PrimaryInfo,
    MedicalHistoryInfo,
@@ -11,7 +11,7 @@ const initialState: SurveySliceType = {
    memberInfo: {
       firstName: '',
       lastName: '',
-      dob: new Date(),
+      dob: '',
       streetAddress: '',
       state: 'Maryland',
       zipCode: '',
@@ -28,7 +28,7 @@ const initialState: SurveySliceType = {
       memberName: '',
       memberId: '',
       groupNumber: '',
-      effectiveDate: new Date(),
+      effectiveDate: '',
    },
    isLoading: false,
    isSubmitted: false,
@@ -43,7 +43,7 @@ const sliceConfig = {
    reducers: {
       addPersonalInformation: (
          state: SurveySliceType,
-         action: PayloadAction<PrimaryInfo>
+         action: PayloadAction<PrimarySlice>
       ) => {
          state.memberInfo = action.payload;
       },
@@ -55,9 +55,10 @@ const sliceConfig = {
       },
       addInsuranceInformation: (
          state: SurveySliceType,
-         action: PayloadAction<InsuranceInformationType>
+         action: PayloadAction<InsuranceInformationSlice>
       ) => {
-         state.memberInsuranceInfo = action.payload;
+         state.memberInsuranceInfo =  action.payload;
+
       },
       setLoading: (state: any, action: PayloadAction<boolean>) => {
          state.isLoading = action.payload;

@@ -2,7 +2,7 @@
 export type PrimaryInfo = {
    firstName: string;
    lastName: string;
-   dob: Date | null;
+   dob: Date;
    streetAddress: string;
    state: string;
    zipCode: string;
