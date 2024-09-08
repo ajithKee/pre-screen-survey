@@ -16,7 +16,10 @@ import StepperNavButtons from '../common/StepperNavButtons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/StateStore';
 import { addPersonalInformation } from '../store/SurveySlice';
-import {convertPersonInfoFormDataToSlice, convertPersonInfoSliceToFormData} from "../../adapters/formDataAdapter";
+import {
+   convertPersonInfoFormDataToSlice,
+   convertPersonInfoSliceToFormData,
+} from '../../adapters/formDataAdapter';
 
 /* CSS Styles */
 const styles = {
@@ -62,7 +65,8 @@ function PersonalInformation({
    /* End Application state management */
 
    /* Form management */
-   const defaultPrimaryInformation = convertPersonInfoSliceToFormData(memberInfo);
+   const defaultPrimaryInformation =
+      convertPersonInfoSliceToFormData(memberInfo);
 
    const validationSchema: Yup.ObjectSchema<PrimaryInfo> = Yup.object().shape({
       firstName: Yup.string().required('Firstname is required'),
@@ -91,7 +95,9 @@ function PersonalInformation({
    /* Adds the current form values to state and then navigates to next step */
    const saveAndContinue = () => {
       let formValues = getValues() as PrimaryInfo;
-      dispatch(addPersonalInformation(convertPersonInfoFormDataToSlice(formValues)));
+      dispatch(
+         addPersonalInformation(convertPersonInfoFormDataToSlice(formValues))
+      );
       onNextButtonClick();
    };
 
