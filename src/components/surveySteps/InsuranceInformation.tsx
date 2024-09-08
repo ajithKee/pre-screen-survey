@@ -7,11 +7,12 @@ import StepperNavButtons from '../common/StepperNavButtons';
 import Overlay from '../common/Overlay';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/StateStore';
+import {AppDispatch, RootState} from '../store/StateStore';
 import {
    addInsuranceInformation,
    setLoading,
    setSubmitted,
+   submitFormToBackEnd
 } from '../store/SurveySlice';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -68,7 +69,7 @@ function InsuranceInformation({
       (state: RootState) => state?.surveySlice?.isLoading
    );
 
-   let dispatch = useDispatch();
+   let dispatch = useDispatch<AppDispatch>();
    /* End Application state management */
 
    /* Form management */
@@ -139,12 +140,7 @@ function InsuranceInformation({
 
    /* Submit the survey data to backend. Mocking a long API call that triggers a loader */
    function onSubmitButtonClick() {
-      dispatch(setLoading(true));
-      setTimeout(() => {
-         dispatch(setLoading(false));
-         console.log(surveyState);
-         dispatch(setSubmitted(true));
-      }, 10000);
+      dispatch(submitFormToBackEnd(surveyState))
    }
 
    return (
