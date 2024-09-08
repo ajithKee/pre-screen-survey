@@ -1,5 +1,3 @@
-
-
 /* Type of the Survey slice data */
 export interface SurveySliceType {
    memberInfo: PrimarySlice;

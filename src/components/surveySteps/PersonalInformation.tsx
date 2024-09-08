@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
 import ControlledMuiDatePicker from '../common/customFormFields/ControlledMuiDatePicker';
-import {PrimaryInfo} from '../interfaces/formTypes';
+import { PrimaryInfo } from '../interfaces/formTypes';
 import ControlledMuiSelect from '../common/customFormFields/ControlledMuiSelect';
 import { stateList } from '../../refData/stateList';
 import { digitsOnly } from '../../refData/regex';
@@ -16,7 +16,7 @@ import StepperNavButtons from '../common/StepperNavButtons';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/StateStore';
 import { addPersonalInformation } from '../store/SurveySlice';
-import {PrimarySlice} from "../interfaces/surveySliceType";
+import { PrimarySlice } from '../interfaces/surveySliceType';
 
 /* CSS Styles */
 const styles = {
@@ -53,7 +53,6 @@ function PersonalInformation({
    onBackButtonClick,
    onNextButtonClick,
 }: PrimaryInformationProps) {
-
    /* Application state management */
    let memberInfo = useSelector(
       (state: RootState) => state?.surveySlice?.memberInfo
@@ -70,7 +69,7 @@ function PersonalInformation({
       streetAddress: memberInfo.streetAddress,
       state: memberInfo.state,
       zipCode: memberInfo.zipCode,
-   }
+   };
 
    const validationSchema: Yup.ObjectSchema<PrimaryInfo> = Yup.object().shape({
       firstName: Yup.string().required('Firstname is required'),
@@ -107,7 +106,7 @@ function PersonalInformation({
          streetAddress: formValues.streetAddress,
          state: formValues.state,
          zipCode: formValues.zipCode,
-      }
+      };
 
       dispatch(addPersonalInformation(convertedPrimaryInfo));
 

@@ -7,10 +7,10 @@ import StepperNavButtons from '../common/StepperNavButtons';
 import Overlay from '../common/Overlay';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {AppDispatch, RootState} from '../store/StateStore';
+import { AppDispatch, RootState } from '../store/StateStore';
 import {
    addInsuranceInformation,
-   submitFormToBackEnd
+   submitFormToBackEnd,
 } from '../store/SurveySlice';
 
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -22,7 +22,7 @@ import ControlledMuiTextField from '../common/customFormFields/ControlledMuiText
 
 import { InsuranceInformationType } from '../interfaces/formTypes';
 import { digitsOnly } from '../../refData/regex';
-import {InsuranceInformationSlice} from "../interfaces/surveySliceType";
+import { InsuranceInformationSlice } from '../interfaces/surveySliceType';
 
 /* CSS Styles */
 const styles = {
@@ -76,8 +76,8 @@ function InsuranceInformation({
       memberName: insuranceInformation.memberName,
       memberId: insuranceInformation.memberId,
       groupNumber: insuranceInformation.groupNumber,
-      effectiveDate: new Date(insuranceInformation.effectiveDate)
-   }
+      effectiveDate: new Date(insuranceInformation.effectiveDate),
+   };
 
    const validationSchema: Yup.ObjectSchema<InsuranceInformationType> =
       Yup.object().shape({
@@ -112,7 +112,7 @@ function InsuranceInformation({
             memberId: formValue.memberId,
             groupNumber: formValue.groupNumber,
             effectiveDate: formValue.effectiveDate.toISOString(),
-         }
+         };
 
          dispatch(addInsuranceInformation(convertedInsuranceInformation));
       })();
@@ -129,7 +129,7 @@ function InsuranceInformation({
             memberId: formValue.memberId,
             groupNumber: formValue.groupNumber,
             effectiveDate: formValue.effectiveDate.toISOString(),
-         }
+         };
 
          dispatch(addInsuranceInformation(convertedInsuranceInformation));
          onBackButtonClick();
@@ -138,7 +138,7 @@ function InsuranceInformation({
 
    /* Submit the survey data to backend. Mocking a long API call that triggers a loader */
    function onSubmitButtonClick() {
-      dispatch(submitFormToBackEnd(surveyState))
+      dispatch(submitFormToBackEnd(surveyState));
    }
 
    return (

@@ -1,8 +1,10 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {InsuranceInformationSlice, PrimarySlice, SurveySliceType} from '../interfaces/surveySliceType';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-   MedicalHistoryInfo,
-} from '../interfaces/formTypes';
+   InsuranceInformationSlice,
+   PrimarySlice,
+   SurveySliceType,
+} from '../interfaces/surveySliceType';
+import { MedicalHistoryInfo } from '../interfaces/formTypes';
 
 /* Initial state of the survey form */
 const initialState: SurveySliceType = {
@@ -55,8 +57,7 @@ const sliceConfig = {
          state: SurveySliceType,
          action: PayloadAction<InsuranceInformationSlice>
       ) => {
-         state.memberInsuranceInfo =  action.payload;
-
+         state.memberInsuranceInfo = action.payload;
       },
       setLoading: (state: any, action: PayloadAction<boolean>) => {
          state.isLoading = action.payload;
@@ -68,16 +69,22 @@ const sliceConfig = {
    extraReducers: (builder: any) => {
       builder.addCase(submitFormToBackEnd.pending, (state: SurveySliceType) => {
          state.isLoading = true;
-      })
-      builder.addCase(submitFormToBackEnd.fulfilled, (state: SurveySliceType, action: PayloadAction<SurveySliceType>) => {
-         state.isLoading = false;
-         console.log(action.payload)
-         state.isSubmitted = true;
-      })
-      builder.addCase(submitFormToBackEnd.rejected, (state: SurveySliceType, action: any) => {
-         state.isLoading = false;
-      })
-}
+      });
+      builder.addCase(
+         submitFormToBackEnd.fulfilled,
+         (state: SurveySliceType, action: PayloadAction<SurveySliceType>) => {
+            state.isLoading = false;
+            console.log(action.payload);
+            state.isSubmitted = true;
+         }
+      );
+      builder.addCase(
+         submitFormToBackEnd.rejected,
+         (state: SurveySliceType, action: any) => {
+            state.isLoading = false;
+         }
+      );
+   },
 };
 
 /* Create the slice */
@@ -86,15 +93,18 @@ let surveySlice = createSlice(sliceConfig);
 /**
  * Function to simulate submitting the form to backend. Fake 5 second wait time to simulate async submissions
  */
-export const submitFormToBackEnd = createAsyncThunk('surveySlice/submitFormToBackEnd', async(payload: SurveySliceType ) => {
-   let promise =  new Promise((resolve, reject) => {
-      setTimeout(() => {
-         return resolve(payload);
-      }, 5000)
-   });
+export const submitFormToBackEnd = createAsyncThunk(
+   'surveySlice/submitFormToBackEnd',
+   async (payload: SurveySliceType) => {
+      let promise = new Promise((resolve, reject) => {
+         setTimeout(() => {
+            return resolve(payload);
+         }, 5000);
+      });
 
-   return promise;
-})
+      return promise;
+   }
+);
 
 /* Export the reducer and actions */
 export default surveySlice.reducer;
