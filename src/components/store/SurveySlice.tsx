@@ -11,7 +11,7 @@ const initialState: SurveySliceType = {
    memberInfo: {
       firstName: '',
       lastName: '',
-      dob: '',
+      dob: new Date().toISOString(),
       streetAddress: '',
       state: 'Maryland',
       zipCode: '',
@@ -28,7 +28,7 @@ const initialState: SurveySliceType = {
       memberName: '',
       memberId: '',
       groupNumber: '',
-      effectiveDate: '',
+      effectiveDate: new Date().toISOString(),
    },
    isLoading: false,
    isSubmitted: false,
